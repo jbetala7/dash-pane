@@ -1,0 +1,83 @@
+name: Build DMG
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version tag (e.g., v1.0.0)'
+        required: true
+        default: 'v1.0.0'
+      create_release:
+        description: 'Create GitHub Release'
+        type: boolean
+        default: true
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Build Release Archive
+        run: |
+          xcodebuild -scheme WindowSwitcher \
+            -configuration Release \
+            -archivePath build/DashPane.xcarchive \
+            archive \
+            CODE_SIGN_IDENTITY="-" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Prepare DMG Contents
+        run: |
+          mkdir -p build/dmg-contents
+          cp -R build/DashPane.xcarchive/Products/Applications/WindowSwitcher.app build/dmg-contents/DashPane.app
+          ln -s /Applications build/dmg-contents/Applications
+
+      - name: Create DMG
+        run: |
+          hdiutil create \
+            -volname "DashPane" \
+            -srcfolder build/dmg-contents \
+            -ov \
+            -format UDZO \
+            build/DashPane.dmg
+
+      - name: Upload DMG Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: DashPane-${{ github.event.inputs.version }}
+          path: build/DashPane.dmg
+
+      - name: Create GitHub Release
+        if: ${{ github.event.inputs.create_release == 'true' }}
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.event.inputs.version }}
+          name: DashPane ${{ github.event.inputs.version }}
+          body: |
+            ## DashPane ${{ github.event.inputs.version }}
+
+            A fast, keyboard-driven window switcher for macOS.
+
+            ### Installation
+            1. Download `DashPane.dmg`
+            2. Open the DMG file
+            3. Drag DashPane to Applications
+            4. Grant Accessibility permissions when prompted
+
+            ### Features
+            - Quick Command+Tab switching (no UI for fast switches)
+            - Hold Command to see window list
+            - Ctrl+Space for search mode
+            - Fuzzy search for windows
+          files: build/DashPane.dmg
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
