@@ -1,0 +1,567 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A10000010000000000000001 /* WindowSwitcherApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000010000000000000001 /* WindowSwitcherApp.swift */; };
+		A10000020000000000000002 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000020000000000000002 /* AppDelegate.swift */; };
+		A10000030000000000000003 /* PermissionsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000030000000000000003 /* PermissionsManager.swift */; };
+		A10000040000000000000004 /* PermissionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000040000000000000004 /* PermissionsView.swift */; };
+		A10000050000000000000005 /* WindowInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000050000000000000005 /* WindowInfo.swift */; };
+		A10000060000000000000006 /* WindowEnumerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000060000000000000006 /* WindowEnumerator.swift */; };
+		A10000070000000000000007 /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000070000000000000007 /* WindowManager.swift */; };
+		A10000080000000000000008 /* AccessibilityWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000080000000000000008 /* AccessibilityWrapper.swift */; };
+		A10000400000000000000040 /* AppActivationTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000400000000000000040 /* AppActivationTracker.swift */; };
+		A10000090000000000000009 /* SpaceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000090000000000000009 /* SpaceManager.swift */; };
+		A1000010000000000000000A /* KeyboardEventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000010000000000000000A /* KeyboardEventManager.swift */; };
+		A1000011000000000000000B /* GestureEventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000011000000000000000B /* GestureEventManager.swift */; };
+		A1000012000000000000000C /* FuzzySearchEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000012000000000000000C /* FuzzySearchEngine.swift */; };
+		A1000013000000000000000D /* SwitcherPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000013000000000000000D /* SwitcherPanel.swift */; };
+		A1000014000000000000000E /* SwitcherController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000014000000000000000E /* SwitcherController.swift */; };
+		A1000015000000000000000F /* SwitcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000015000000000000000F /* SwitcherView.swift */; };
+		A10000160000000000000010 /* SidebarPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000160000000000000010 /* SidebarPanel.swift */; };
+		A10000170000000000000011 /* SidebarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000170000000000000011 /* SidebarController.swift */; };
+		A10000180000000000000012 /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000180000000000000012 /* SidebarView.swift */; };
+		A10000190000000000000013 /* MenuBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000190000000000000013 /* MenuBarView.swift */; };
+		A1000020000000000000001A /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000020000000000000001A /* SettingsManager.swift */; };
+		A10000210000000000000014 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000210000000000000014 /* SettingsView.swift */; };
+		A10000220000000000000015 /* NSScreen+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000220000000000000015 /* NSScreen+Extensions.swift */; };
+		A10000230000000000000016 /* Collection+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000230000000000000016 /* Collection+Extensions.swift */; };
+		A10000240000000000000017 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A20000240000000000000017 /* Assets.xcassets */; };
+		A10000300000000000000030 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A20000300000000000000030 /* ApplicationServices.framework */; };
+		A10000310000000000000031 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A20000310000000000000031 /* Carbon.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A20000010000000000000001 /* WindowSwitcherApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowSwitcherApp.swift; sourceTree = "<group>"; };
+		A20000020000000000000002 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		A20000030000000000000003 /* PermissionsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsManager.swift; sourceTree = "<group>"; };
+		A20000040000000000000004 /* PermissionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsView.swift; sourceTree = "<group>"; };
+		A20000050000000000000005 /* WindowInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowInfo.swift; sourceTree = "<group>"; };
+		A20000060000000000000006 /* WindowEnumerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowEnumerator.swift; sourceTree = "<group>"; };
+		A20000070000000000000007 /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
+		A20000080000000000000008 /* AccessibilityWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityWrapper.swift; sourceTree = "<group>"; };
+		A20000400000000000000040 /* AppActivationTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppActivationTracker.swift; sourceTree = "<group>"; };
+		A20000090000000000000009 /* SpaceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceManager.swift; sourceTree = "<group>"; };
+		A2000010000000000000000A /* KeyboardEventManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardEventManager.swift; sourceTree = "<group>"; };
+		A2000011000000000000000B /* GestureEventManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureEventManager.swift; sourceTree = "<group>"; };
+		A2000012000000000000000C /* FuzzySearchEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FuzzySearchEngine.swift; sourceTree = "<group>"; };
+		A2000013000000000000000D /* SwitcherPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitcherPanel.swift; sourceTree = "<group>"; };
+		A2000014000000000000000E /* SwitcherController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitcherController.swift; sourceTree = "<group>"; };
+		A2000015000000000000000F /* SwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitcherView.swift; sourceTree = "<group>"; };
+		A20000160000000000000010 /* SidebarPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarPanel.swift; sourceTree = "<group>"; };
+		A20000170000000000000011 /* SidebarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarController.swift; sourceTree = "<group>"; };
+		A20000180000000000000012 /* SidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarView.swift; sourceTree = "<group>"; };
+		A20000190000000000000013 /* MenuBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarView.swift; sourceTree = "<group>"; };
+		A2000020000000000000001A /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
+		A20000210000000000000014 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		A20000220000000000000015 /* NSScreen+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSScreen+Extensions.swift"; sourceTree = "<group>"; };
+		A20000230000000000000016 /* Collection+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Extensions.swift"; sourceTree = "<group>"; };
+		A20000240000000000000017 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A20000250000000000000018 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A20000260000000000000019 /* WindowSwitcher.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WindowSwitcher.entitlements; sourceTree = "<group>"; };
+		A20000270000000000000020 /* WindowSwitcher-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WindowSwitcher-Bridging-Header.h"; sourceTree = "<group>"; };
+		A20000300000000000000030 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
+		A20000310000000000000031 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
+		A30000010000000000000001 /* WindowSwitcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WindowSwitcher.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A40000010000000000000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000300000000000000030 /* ApplicationServices.framework in Frameworks */,
+				A10000310000000000000031 /* Carbon.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A50000010000000000000001 = {
+			isa = PBXGroup;
+			children = (
+				A50000020000000000000002 /* WindowSwitcher */,
+				A50000030000000000000003 /* Products */,
+				A50000040000000000000004 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		A50000020000000000000002 /* WindowSwitcher */ = {
+			isa = PBXGroup;
+			children = (
+				A50000050000000000000005 /* App */,
+				A50000060000000000000006 /* Core */,
+				A50000070000000000000007 /* Features */,
+				A50000080000000000000008 /* Settings */,
+				A50000090000000000000009 /* Utilities */,
+				A5000010000000000000000A /* Resources */,
+				A20000260000000000000019 /* WindowSwitcher.entitlements */,
+				A20000270000000000000020 /* WindowSwitcher-Bridging-Header.h */,
+			);
+			path = WindowSwitcher;
+			sourceTree = "<group>";
+		};
+		A50000030000000000000003 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A30000010000000000000001 /* WindowSwitcher.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A50000040000000000000004 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A20000300000000000000030 /* ApplicationServices.framework */,
+				A20000310000000000000031 /* Carbon.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A50000050000000000000005 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				A20000010000000000000001 /* WindowSwitcherApp.swift */,
+				A20000020000000000000002 /* AppDelegate.swift */,
+				A20000250000000000000018 /* Info.plist */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		A50000060000000000000006 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				A5000011000000000000000B /* Permissions */,
+				A5000012000000000000000C /* Windows */,
+				A5000013000000000000000D /* Spaces */,
+				A5000014000000000000000E /* Events */,
+				A5000015000000000000000F /* Search */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		A50000070000000000000007 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				A50000160000000000000010 /* Switcher */,
+				A50000170000000000000011 /* Sidebar */,
+				A50000180000000000000012 /* MenuBar */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		A50000080000000000000008 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				A2000020000000000000001A /* SettingsManager.swift */,
+				A20000210000000000000014 /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		A50000090000000000000009 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				A50000190000000000000013 /* Extensions */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		A5000010000000000000000A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A20000240000000000000017 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		A5000011000000000000000B /* Permissions */ = {
+			isa = PBXGroup;
+			children = (
+				A20000030000000000000003 /* PermissionsManager.swift */,
+				A20000040000000000000004 /* PermissionsView.swift */,
+			);
+			path = Permissions;
+			sourceTree = "<group>";
+		};
+		A5000012000000000000000C /* Windows */ = {
+			isa = PBXGroup;
+			children = (
+				A20000050000000000000005 /* WindowInfo.swift */,
+				A20000060000000000000006 /* WindowEnumerator.swift */,
+				A20000070000000000000007 /* WindowManager.swift */,
+				A20000080000000000000008 /* AccessibilityWrapper.swift */,
+				A20000400000000000000040 /* AppActivationTracker.swift */,
+			);
+			path = Windows;
+			sourceTree = "<group>";
+		};
+		A5000013000000000000000D /* Spaces */ = {
+			isa = PBXGroup;
+			children = (
+				A20000090000000000000009 /* SpaceManager.swift */,
+			);
+			path = Spaces;
+			sourceTree = "<group>";
+		};
+		A5000014000000000000000E /* Events */ = {
+			isa = PBXGroup;
+			children = (
+				A2000010000000000000000A /* KeyboardEventManager.swift */,
+				A2000011000000000000000B /* GestureEventManager.swift */,
+			);
+			path = Events;
+			sourceTree = "<group>";
+		};
+		A5000015000000000000000F /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				A2000012000000000000000C /* FuzzySearchEngine.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		A50000160000000000000010 /* Switcher */ = {
+			isa = PBXGroup;
+			children = (
+				A2000013000000000000000D /* SwitcherPanel.swift */,
+				A2000014000000000000000E /* SwitcherController.swift */,
+				A2000015000000000000000F /* SwitcherView.swift */,
+			);
+			path = Switcher;
+			sourceTree = "<group>";
+		};
+		A50000170000000000000011 /* Sidebar */ = {
+			isa = PBXGroup;
+			children = (
+				A20000160000000000000010 /* SidebarPanel.swift */,
+				A20000170000000000000011 /* SidebarController.swift */,
+				A20000180000000000000012 /* SidebarView.swift */,
+			);
+			path = Sidebar;
+			sourceTree = "<group>";
+		};
+		A50000180000000000000012 /* MenuBar */ = {
+			isa = PBXGroup;
+			children = (
+				A20000190000000000000013 /* MenuBarView.swift */,
+			);
+			path = MenuBar;
+			sourceTree = "<group>";
+		};
+		A50000190000000000000013 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				A20000220000000000000015 /* NSScreen+Extensions.swift */,
+				A20000230000000000000016 /* Collection+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A60000010000000000000001 /* WindowSwitcher */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A80000010000000000000001 /* Build configuration list for PBXNativeTarget "WindowSwitcher" */;
+			buildPhases = (
+				A70000010000000000000001 /* Sources */,
+				A40000010000000000000001 /* Frameworks */,
+				A70000020000000000000002 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WindowSwitcher;
+			productName = WindowSwitcher;
+			productReference = A30000010000000000000001 /* WindowSwitcher.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A90000010000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					A60000010000000000000001 = {
+						CreatedOnToolsVersion = 15.0;
+						LastSwiftMigration = 1500;
+					};
+				};
+			};
+			buildConfigurationList = A80000020000000000000002 /* Build configuration list for PBXProject "WindowSwitcher" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A50000010000000000000001;
+			productRefGroup = A50000030000000000000003 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A60000010000000000000001 /* WindowSwitcher */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A70000020000000000000002 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000240000000000000017 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A70000010000000000000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000010000000000000001 /* WindowSwitcherApp.swift in Sources */,
+				A10000020000000000000002 /* AppDelegate.swift in Sources */,
+				A10000030000000000000003 /* PermissionsManager.swift in Sources */,
+				A10000040000000000000004 /* PermissionsView.swift in Sources */,
+				A10000050000000000000005 /* WindowInfo.swift in Sources */,
+				A10000060000000000000006 /* WindowEnumerator.swift in Sources */,
+				A10000070000000000000007 /* WindowManager.swift in Sources */,
+				A10000080000000000000008 /* AccessibilityWrapper.swift in Sources */,
+				A10000400000000000000040 /* AppActivationTracker.swift in Sources */,
+				A10000090000000000000009 /* SpaceManager.swift in Sources */,
+				A1000010000000000000000A /* KeyboardEventManager.swift in Sources */,
+				A1000011000000000000000B /* GestureEventManager.swift in Sources */,
+				A1000012000000000000000C /* FuzzySearchEngine.swift in Sources */,
+				A1000013000000000000000D /* SwitcherPanel.swift in Sources */,
+				A1000014000000000000000E /* SwitcherController.swift in Sources */,
+				A1000015000000000000000F /* SwitcherView.swift in Sources */,
+				A10000160000000000000010 /* SidebarPanel.swift in Sources */,
+				A10000170000000000000011 /* SidebarController.swift in Sources */,
+				A10000180000000000000012 /* SidebarView.swift in Sources */,
+				A10000190000000000000013 /* MenuBarView.swift in Sources */,
+				A1000020000000000000001A /* SettingsManager.swift in Sources */,
+				A10000210000000000000014 /* SettingsView.swift in Sources */,
+				A10000220000000000000015 /* NSScreen+Extensions.swift in Sources */,
+				A10000230000000000000016 /* Collection+Extensions.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		B10000010000000000000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		B10000020000000000000002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		B10000030000000000000003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = WindowSwitcher/WindowSwitcher.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = WindowSwitcher/App/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = WindowSwitcher;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.windowswitcher.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "WindowSwitcher/WindowSwitcher-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		B10000040000000000000004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = WindowSwitcher/WindowSwitcher.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = WindowSwitcher/App/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = WindowSwitcher;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.windowswitcher.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "WindowSwitcher/WindowSwitcher-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A80000010000000000000001 /* Build configuration list for PBXNativeTarget "WindowSwitcher" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B10000030000000000000003 /* Debug */,
+				B10000040000000000000004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A80000020000000000000002 /* Build configuration list for PBXProject "WindowSwitcher" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B10000010000000000000001 /* Debug */,
+				B10000020000000000000002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A90000010000000000000001 /* Project object */;
+}
