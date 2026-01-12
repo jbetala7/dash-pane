@@ -93,7 +93,7 @@ class WindowManager: ObservableObject {
     // MARK: - Window Activation
 
     func activateWindow(_ window: WindowInfo) -> Bool {
-        return accessibilityWrapper.activateWindow(pid: window.ownerPID, windowID: window.id)
+        return accessibilityWrapper.activateWindow(pid: window.ownerPID, windowIndex: window.windowIndex)
     }
 
     func activateWindow(at index: Int) -> Bool {

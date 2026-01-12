@@ -5,12 +5,9 @@ class AccessibilityWrapper {
 
     // MARK: - Window Activation
 
-    /// Activate a specific window by PID and window ID
-    /// Window ID format: pid * 1000 + windowIndex (or pid * 1000 - 1 for app-only)
-    func activateWindow(pid: pid_t, windowID: CGWindowID) -> Bool {
-        // Extract window index from our synthetic window ID
-        let windowIndex = Int(windowID) - (Int(pid) * 1000)
-
+    /// Activate a specific window by PID and window index
+    /// windowIndex: -1 for app-only, otherwise the index in the app's window list
+    func activateWindow(pid: pid_t, windowIndex: Int) -> Bool {
         // App-only entry (negative index) - just activate the app
         if windowIndex < 0 {
             return activateAppOnly(pid: pid)

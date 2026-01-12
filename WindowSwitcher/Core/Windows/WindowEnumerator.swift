@@ -130,6 +130,7 @@ class WindowEnumerator {
 
         windowInfo.isFullscreen = isFullscreen
         windowInfo.appIcon = appIcon
+        windowInfo.windowIndex = index  // Store the index for activation
 
         return windowInfo
     }

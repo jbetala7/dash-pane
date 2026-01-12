@@ -15,6 +15,7 @@ struct WindowInfo: Identifiable, Hashable {
     let spaceID: Int?
     var isFullscreen: Bool = false
     var isAppOnly: Bool = false  // True if this is an app entry without a specific window
+    var windowIndex: Int = -1    // Index of window within the app's window list (for activation)
 
     var thumbnail: NSImage?
     var appIcon: NSImage?
