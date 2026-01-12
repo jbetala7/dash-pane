@@ -89,8 +89,17 @@ class SwitcherController: ObservableObject {
 
         // Reset state
         searchText = ""
-        selectedIndex = 0
         updateFilteredResults(searchText: "", windows: windowManager.windows)
+
+        // For Command+Tab mode, start with second item selected (like native macOS)
+        // For search mode, start with first item
+        if searchMode {
+            selectedIndex = firstSelectableIndex()
+        } else {
+            // Select second item (previous app) for Command+Tab behavior
+            let first = firstSelectableIndex()
+            selectedIndex = nextSelectableIndex(from: first)
+        }
 
         // Show panel
         panel?.showCentered()

@@ -246,7 +246,7 @@ extension AppDelegate: KeyboardEventDelegate {
 
             // Start timer to show UI if Command is held
             AppDelegate.showUITimer?.invalidate()
-            AppDelegate.showUITimer = Timer.scheduledTimer(withTimeInterval: 0.15, repeats: false) { [weak self] _ in
+            AppDelegate.showUITimer = Timer.scheduledTimer(withTimeInterval: 0.04, repeats: false) { [weak self] _ in
                 guard let self = self, AppDelegate.isQuickSwitching else { return }
                 AppDelegate.isQuickSwitching = false
                 // Command still held - show the UI
