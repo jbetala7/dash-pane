@@ -43,7 +43,7 @@ struct MenuBarView: View {
             Divider()
 
             Button(role: .destructive, action: quitApp) {
-                Label("Quit WindowSwitcher", systemImage: "power")
+                Label("Quit DashPane", systemImage: "power")
             }
             .keyboardShortcut("q", modifiers: .command)
         }
@@ -89,14 +89,14 @@ class StatusBarManager {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
 
         if let button = statusItem?.button {
-            button.image = NSImage(systemSymbolName: "rectangle.stack", accessibilityDescription: "WindowSwitcher")
+            button.image = NSImage(systemSymbolName: "rectangle.stack", accessibilityDescription: "DashPane")
         }
     }
 
     func updateIcon(active: Bool) {
         if let button = statusItem?.button {
             let imageName = active ? "rectangle.stack.fill" : "rectangle.stack"
-            button.image = NSImage(systemSymbolName: imageName, accessibilityDescription: "WindowSwitcher")
+            button.image = NSImage(systemSymbolName: imageName, accessibilityDescription: "DashPane")
         }
     }
 }

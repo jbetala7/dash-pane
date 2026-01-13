@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# WindowSwitcher Notarization Script
+# DashPane Notarization Script
 # This script notarizes the app for distribution outside the Mac App Store
 
 set -e
 
 # Configuration
-PROJECT_NAME="WindowSwitcher"
+PROJECT_NAME="DashPane"
 BUILD_DIR="build"
 APP_PATH="$BUILD_DIR/Release/$PROJECT_NAME.app"
 DMG_PATH="$BUILD_DIR/$PROJECT_NAME.dmg"
@@ -21,7 +21,7 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
-echo -e "${GREEN}=== WindowSwitcher Notarization ===${NC}"
+echo -e "${GREEN}=== DashPane Notarization ===${NC}"
 
 # Check if app exists
 if [ ! -d "$APP_PATH" ]; then

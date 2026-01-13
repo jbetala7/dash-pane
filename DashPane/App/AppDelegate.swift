@@ -18,7 +18,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // MARK: - Lifecycle
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        NSLog("WindowSwitcher: applicationDidFinishLaunching")
+        NSLog("DashPane: applicationDidFinishLaunching")
 
         // Setup status bar item
         setupStatusBar()
@@ -55,15 +55,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // MARK: - Status Bar
 
     private func setupStatusBar() {
-        NSLog("WindowSwitcher: Setting up status bar")
+        NSLog("DashPane: Setting up status bar")
 
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
 
         if let button = statusItem?.button {
-            button.image = NSImage(systemSymbolName: "square.stack.3d.up", accessibilityDescription: "WindowSwitcher")
+            button.image = NSImage(systemSymbolName: "square.stack.3d.up", accessibilityDescription: "DashPane")
             button.action = #selector(statusBarButtonClicked)
             button.target = self
-            NSLog("WindowSwitcher: Status bar button configured")
+            NSLog("DashPane: Status bar button configured")
         }
 
         // Create menu
@@ -75,14 +75,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(NSMenuItem(title: "Check Permissions...", action: #selector(showPermissionsAction), keyEquivalent: ""))
         menu.addItem(NSMenuItem(title: "Settings...", action: #selector(showSettingsAction), keyEquivalent: ","))
         menu.addItem(NSMenuItem.separator())
-        menu.addItem(NSMenuItem(title: "Quit WindowSwitcher", action: #selector(quitAction), keyEquivalent: "q"))
+        menu.addItem(NSMenuItem(title: "Quit DashPane", action: #selector(quitAction), keyEquivalent: "q"))
 
         statusItem?.menu = menu
-        NSLog("WindowSwitcher: Status bar menu configured")
+        NSLog("DashPane: Status bar menu configured")
     }
 
     @objc private func statusBarButtonClicked() {
-        NSLog("WindowSwitcher: Status bar clicked")
+        NSLog("DashPane: Status bar clicked")
     }
 
     @objc private func showSwitcherAction() {
@@ -94,12 +94,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @objc private func restartKeyboardAction() {
-        NSLog("WindowSwitcher: Restarting keyboard monitoring")
+        NSLog("DashPane: Restarting keyboard monitoring")
         keyboardEventManager.stopMonitoring()
         gestureEventManager.stopMonitoring()
         keyboardEventManager.startMonitoring()
         gestureEventManager.startMonitoring()
-        NSLog("WindowSwitcher: Keyboard monitoring restarted")
+        NSLog("DashPane: Keyboard monitoring restarted")
     }
 
     @objc private func showPermissionsAction() {
@@ -118,16 +118,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func checkPermissions() {
         let hasAccessibility = permissionsManager.checkAccessibilityPermission()
-        NSLog("WindowSwitcher: Checking permissions - Accessibility: \(hasAccessibility)")
+        NSLog("DashPane: Checking permissions - Accessibility: \(hasAccessibility)")
 
         if hasAccessibility {
             // Permissions granted, start monitoring
-            NSLog("WindowSwitcher: Accessibility permission granted, starting monitoring")
+            NSLog("DashPane: Accessibility permission granted, starting monitoring")
             startMonitoring()
         } else {
             // No permission - show permissions window
             // This handles both first-time setup and rebuild scenarios
-            NSLog("WindowSwitcher: No accessibility permission, showing permissions window")
+            NSLog("DashPane: No accessibility permission, showing permissions window")
             showPermissionsWindow()
 
             // Also try to start monitoring - it will fail silently but
@@ -152,7 +152,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             backing: .buffered,
             defer: false
         )
-        window.title = "WindowSwitcher - Permissions Required"
+        window.title = "DashPane - Permissions Required"
         window.contentView = NSHostingView(rootView: contentView)
         window.center()
         window.makeKeyAndOrderFront(nil)
@@ -162,7 +162,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func startMonitoring() {
-        NSLog("WindowSwitcher: Starting monitoring")
+        NSLog("DashPane: Starting monitoring")
         keyboardEventManager.startMonitoring()
         gestureEventManager.startMonitoring()
 
@@ -176,14 +176,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func stopMonitoring() {
-        NSLog("WindowSwitcher: Stopping monitoring")
+        NSLog("DashPane: Stopping monitoring")
         keyboardEventManager.stopMonitoring()
         gestureEventManager.stopMonitoring()
         windowManager.stopMonitoring()
     }
 
     @objc private func handlePermissionRevoked() {
-        NSLog("WindowSwitcher: Accessibility permission revoked! Stopping event monitoring immediately.")
+        NSLog("DashPane: Accessibility permission revoked! Stopping event monitoring immediately.")
         // CRITICAL: Stop monitoring immediately to prevent keyboard lockup
         stopMonitoring()
 
@@ -196,7 +196,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // MARK: - Public Methods
 
     func showSwitcher() {
-        NSLog("WindowSwitcher: showSwitcher called")
+        NSLog("DashPane: showSwitcher called")
         switcherController.show()
     }
 
@@ -219,7 +219,7 @@ extension AppDelegate: KeyboardEventDelegate {
     private static var isQuickSwitching = false
 
     func controlSpacePressed() {
-        NSLog("WindowSwitcher: Control+Space pressed")
+        NSLog("DashPane: Control+Space pressed")
         if switcherController.isVisible {
             switcherController.hide()
         } else {
@@ -229,7 +229,7 @@ extension AppDelegate: KeyboardEventDelegate {
     }
 
     func commandTabPressed(withShift: Bool) {
-        NSLog("WindowSwitcher: Command+Tab pressed (count: \(AppDelegate.tabPressCount + 1))")
+        NSLog("DashPane: Command+Tab pressed (count: \(AppDelegate.tabPressCount + 1))")
 
         AppDelegate.tabPressCount += 1
 
@@ -270,7 +270,7 @@ extension AppDelegate: KeyboardEventDelegate {
     }
 
     func commandReleased() {
-        NSLog("WindowSwitcher: Command released (quickSwitch: \(AppDelegate.isQuickSwitching), visible: \(switcherController.isVisible))")
+        NSLog("DashPane: Command released (quickSwitch: \(AppDelegate.isQuickSwitching), visible: \(switcherController.isVisible))")
 
         // Cancel the show UI timer
         AppDelegate.showUITimer?.invalidate()

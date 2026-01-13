@@ -16,7 +16,7 @@ struct PermissionsView: View {
                     .font(.title)
                     .fontWeight(.bold)
 
-                Text("WindowSwitcher needs Accessibility permission to switch between windows.")
+                Text("DashPane needs Accessibility permission to switch between windows.")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
@@ -46,7 +46,7 @@ struct PermissionsView: View {
                     Button(action: {
                         onPermissionsGranted()
                     }) {
-                        Text("Start WindowSwitcher")
+                        Text("Start DashPane")
                             .frame(maxWidth: .infinity)
                     }
                     .buttonStyle(.borderedProminent)

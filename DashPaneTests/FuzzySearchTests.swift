@@ -1,5 +1,5 @@
 import XCTest
-@testable import WindowSwitcher
+@testable import DashPane
 
 final class FuzzySearchTests: XCTestCase {
 

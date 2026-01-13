@@ -29,8 +29,8 @@
     <key>NSPrincipalClass</key>
     <string>NSApplication</string>
     <key>NSAccessibilityUsageDescription</key>
-    <string>WindowSwitcher needs Accessibility permission to enumerate windows and switch between them.</string>
+    <string>DashPane needs Accessibility permission to enumerate windows and switch between them.</string>
     <key>NSAppleEventsUsageDescription</key>
-    <string>WindowSwitcher needs to control other applications to switch windows.</string>
+    <string>DashPane needs to control other applications to switch windows.</string>
 </dict>
 </plist>

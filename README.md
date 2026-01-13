@@ -1,4 +1,4 @@
-# WindowSwitcher
+# DashPane
 
 A fast, powerful window switcher for macOS - similar to [Contexts](https://contexts.co/).
 
@@ -18,7 +18,7 @@ A fast, powerful window switcher for macOS - similar to [Contexts](https://conte
 
 ## Permissions Required
 
-WindowSwitcher requires the following permissions:
+DashPane requires the following permissions:
 
 1. **Accessibility** - To enumerate windows and switch between them
 2. **Screen Recording** - To capture window thumbnails and titles
@@ -29,26 +29,26 @@ WindowSwitcher requires the following permissions:
 
 1. Open Xcode
 2. Create a new macOS App project:
-   - Product Name: `WindowSwitcher`
+   - Product Name: `DashPane`
    - Team: Your development team
    - Organization Identifier: Your identifier (e.g., `com.yourname`)
    - Interface: SwiftUI
    - Language: Swift
 
-3. Copy all files from the `WindowSwitcher/` directory into your Xcode project
+3. Copy all files from the `DashPane/` directory into your Xcode project
 
 4. Configure the project:
    - Set deployment target to macOS 13.0
-   - Add the bridging header: `WindowSwitcher-Bridging-Header.h`
+   - Add the bridging header: `DashPane-Bridging-Header.h`
    - Update Info.plist with the provided values
-   - Add entitlements from `WindowSwitcher.entitlements`
+   - Add entitlements from `DashPane.entitlements`
 
 5. Build and run (Cmd+R)
 
 ### Option 2: Using Swift Package Manager
 
 ```bash
-cd WindowSwitcher
+cd DashPane
 swift build
 ```
 
@@ -57,9 +57,9 @@ Note: SPM builds may require additional configuration for the bridging header.
 ## Project Structure
 
 ```
-WindowSwitcher/
+DashPane/
 ├── App/                    # Main app entry point
-│   ├── WindowSwitcherApp.swift
+│   ├── DashPaneApp.swift
 │   ├── AppDelegate.swift
 │   └── Info.plist
 ├── Core/                   # Core functionality
@@ -132,13 +132,13 @@ For distribution outside the Mac App Store:
 
 ```bash
 # Build for release
-xcodebuild -scheme WindowSwitcher -configuration Release archive
+xcodebuild -scheme DashPane -configuration Release archive
 
 # Notarize
-xcrun notarytool submit WindowSwitcher.zip --keychain-profile "notarization" --wait
+xcrun notarytool submit DashPane.zip --keychain-profile "notarization" --wait
 
 # Staple
-xcrun stapler staple WindowSwitcher.app
+xcrun stapler staple DashPane.app
 ```
 
 ## Troubleshooting
@@ -146,8 +146,8 @@ xcrun stapler staple WindowSwitcher.app
 ### Accessibility Permission Not Working
 
 1. Go to System Settings > Privacy & Security > Accessibility
-2. Remove WindowSwitcher from the list
-3. Re-add WindowSwitcher
+2. Remove DashPane from the list
+3. Re-add DashPane
 4. Restart the app
 
 ### Command-Tab Not Overriding

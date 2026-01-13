@@ -180,7 +180,7 @@ struct AboutView: View {
                 .font(.system(size: 64))
                 .foregroundColor(.accentColor)
 
-            Text("WindowSwitcher")
+            Text("DashPane")
                 .font(.title)
                 .fontWeight(.bold)
 

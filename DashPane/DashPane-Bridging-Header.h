@@ -1,12 +1,12 @@
 //
-//  WindowSwitcher-Bridging-Header.h
-//  WindowSwitcher
+//  DashPane-Bridging-Header.h
+//  DashPane
 //
 //  Bridging header for private APIs
 //
 
-#ifndef WindowSwitcher_Bridging_Header_h
-#define WindowSwitcher_Bridging_Header_h
+#ifndef DashPane_Bridging_Header_h
+#define DashPane_Bridging_Header_h
 
 #import <Foundation/Foundation.h>
 #import <CoreGraphics/CoreGraphics.h>
@@ -37,4 +37,4 @@ extern CGSSpaceID CGSGetWindowWorkspace(CGSConnectionID cid, CGWindowID wid);
 // Move window to a space
 extern void CGSMoveWindowToSpace(CGSConnectionID cid, CGWindowID wid, CGSSpaceID space);
 
-#endif /* WindowSwitcher_Bridging_Header_h */
+#endif /* DashPane_Bridging_Header_h */

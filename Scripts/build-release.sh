@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# WindowSwitcher Release Build Script
-# This script builds, signs, and packages WindowSwitcher for distribution
+# DashPane Release Build Script
+# This script builds, signs, and packages DashPane for distribution
 
 set -e
 
 # Configuration
-PROJECT_NAME="WindowSwitcher"
-SCHEME="WindowSwitcher"
+PROJECT_NAME="DashPane"
+SCHEME="DashPane"
 CONFIGURATION="Release"
 BUILD_DIR="build"
 ARCHIVE_PATH="$BUILD_DIR/$PROJECT_NAME.xcarchive"
@@ -20,7 +20,7 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
-echo -e "${GREEN}=== WindowSwitcher Release Build ===${NC}"
+echo -e "${GREEN}=== DashPane Release Build ===${NC}"
 
 # Check for Xcode
 if ! command -v xcodebuild &> /dev/null; then

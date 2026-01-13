@@ -30,7 +30,7 @@ jobs:
 
       - name: Build Release Archive
         run: |
-          xcodebuild -scheme WindowSwitcher \
+          xcodebuild -scheme DashPane \
             -configuration Release \
             -archivePath build/DashPane.xcarchive \
             archive \
@@ -41,7 +41,7 @@ jobs:
       - name: Prepare DMG Contents
         run: |
           mkdir -p build/dmg-contents
-          cp -R build/DashPane.xcarchive/Products/Applications/WindowSwitcher.app build/dmg-contents/DashPane.app
+          cp -R build/DashPane.xcarchive/Products/Applications/DashPane.app build/dmg-contents/DashPane.app
           ln -s /Applications build/dmg-contents/Applications
 
       - name: Create DMG

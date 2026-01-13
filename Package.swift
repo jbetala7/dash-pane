@@ -4,23 +4,23 @@
 import PackageDescription
 
 let package = Package(
-    name: "WindowSwitcher",
+    name: "DashPane",
     platforms: [
         .macOS(.v13)
     ],
     products: [
-        .executable(name: "WindowSwitcher", targets: ["WindowSwitcher"])
+        .executable(name: "DashPane", targets: ["DashPane"])
     ],
     targets: [
         .executableTarget(
-            name: "WindowSwitcher",
-            path: "WindowSwitcher",
+            name: "DashPane",
+            path: "DashPane",
             exclude: ["App/Info.plist"],
             resources: [
                 .process("Resources")
             ],
             swiftSettings: [
-                .unsafeFlags(["-import-objc-header", "WindowSwitcher/WindowSwitcher-Bridging-Header.h"])
+                .unsafeFlags(["-import-objc-header", "DashPane/DashPane-Bridging-Header.h"])
             ],
             linkerSettings: [
                 .linkedFramework("Cocoa"),
@@ -30,9 +30,9 @@ let package = Package(
             ]
         ),
         .testTarget(
-            name: "WindowSwitcherTests",
-            dependencies: ["WindowSwitcher"],
-            path: "WindowSwitcherTests"
+            name: "DashPaneTests",
+            dependencies: ["DashPane"],
+            path: "DashPaneTests"
         )
     ]
 )
