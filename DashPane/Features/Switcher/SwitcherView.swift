@@ -62,6 +62,7 @@ struct SwitcherView: View {
                                 window: window,
                                 shortcut: shortcut,
                                 isSelected: index == controller.selectedIndex,
+                                showShortcut: !controller.isSearchMode,
                                 onTap: {
                                     controller.selectIndex(index)
                                     controller.activateSelectedAndHide()
@@ -117,13 +118,15 @@ struct WindowRow: View {
     let window: WindowInfo
     let shortcut: String
     let isSelected: Bool
+    let showShortcut: Bool
     let onTap: () -> Void
 
     var body: some View {
         ContextsStyleRow(
             window: window,
             shortcutKey: shortcut,
-            isSelected: isSelected
+            isSelected: isSelected,
+            showShortcut: showShortcut
         )
         .contentShape(Rectangle())
         .onTapGesture(perform: onTap)
@@ -136,15 +139,20 @@ struct ContextsStyleRow: View {
     let window: WindowInfo
     let shortcutKey: String
     let isSelected: Bool
+    var showShortcut: Bool = true
 
     var body: some View {
         HStack(spacing: 0) {
-            // Shortcut key (wider column, left-aligned)
-            Text(shortcutKey)
-                .font(.system(size: 13, weight: .regular, design: .default))
-                .foregroundColor(isSelected ? .white.opacity(0.9) : Color(NSColor.tertiaryLabelColor))
-                .frame(width: 36, alignment: .leading)
-                .padding(.leading, 16)
+            // Shortcut key (wider column, left-aligned) - only in non-search mode
+            if showShortcut {
+                Text(shortcutKey)
+                    .font(.system(size: 13, weight: .regular, design: .default))
+                    .foregroundColor(isSelected ? .white.opacity(0.9) : Color(NSColor.tertiaryLabelColor))
+                    .frame(width: 36, alignment: .leading)
+                    .padding(.leading, 16)
+            } else {
+                Spacer().frame(width: 16)
+            }
 
             Spacer()
 
