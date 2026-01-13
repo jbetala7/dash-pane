@@ -120,13 +120,8 @@ class GestureEventManager {
             if let eventTap = eventTap {
                 CGEvent.tapEnable(tap: eventTap, enable: false)
             }
-            // Notify the system that permission was revoked
-            DispatchQueue.main.async {
-                NotificationCenter.default.post(
-                    name: .accessibilityPermissionRevoked,
-                    object: nil
-                )
-            }
+            // Note: Don't post notification here - let PermissionsManager be the single source of truth
+            // to prevent race conditions from multiple notification sources
         }
         return hasPermission
     }

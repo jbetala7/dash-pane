@@ -10,6 +10,7 @@ class PermissionsManager: ObservableObject {
     // MARK: - Private Properties
 
     private var permissionMonitorTimer: Timer?
+    private var permissionPollingTimer: Timer?
 
     // MARK: - Accessibility Permission
 
@@ -28,7 +29,10 @@ class PermissionsManager: ObservableObject {
     }
 
     private func startAccessibilityPermissionPolling() {
-        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
+        // Invalidate existing polling timer to prevent duplicates
+        permissionPollingTimer?.invalidate()
+
+        permissionPollingTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
             guard let self = self else {
                 timer.invalidate()
                 return
@@ -36,6 +40,7 @@ class PermissionsManager: ObservableObject {
 
             if self.checkAccessibilityPermission() {
                 timer.invalidate()
+                self.permissionPollingTimer = nil
                 DispatchQueue.main.async {
                     NotificationCenter.default.post(
                         name: .accessibilityPermissionGranted,
@@ -85,6 +90,8 @@ class PermissionsManager: ObservableObject {
     func stopContinuousPermissionMonitoring() {
         permissionMonitorTimer?.invalidate()
         permissionMonitorTimer = nil
+        permissionPollingTimer?.invalidate()
+        permissionPollingTimer = nil
     }
 
     // MARK: - Open System Preferences

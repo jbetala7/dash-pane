@@ -14,6 +14,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     private var permissionsWindow: NSWindow?
     private var statusItem: NSStatusItem?
+    private var isHandlingPermissionChange = false
 
     // MARK: - Lifecycle
 
@@ -48,8 +49,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationWillTerminate(_ notification: Notification) {
+        NotificationCenter.default.removeObserver(self)
         keyboardEventManager.stopMonitoring()
         gestureEventManager.stopMonitoring()
+        permissionsManager.stopContinuousPermissionMonitoring()
     }
 
     // MARK: - Status Bar
@@ -137,12 +140,28 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func showPermissionsWindow() {
+        // If window already exists and is visible, just bring it to front
+        if let existingWindow = permissionsWindow, existingWindow.isVisible {
+            existingWindow.makeKeyAndOrderFront(nil)
+            NSApp.activate(ignoringOtherApps: true)
+            return
+        }
+
+        // Close any existing window first
+        permissionsWindow?.close()
+        permissionsWindow = nil
+
         let contentView = PermissionsView(
             permissionsManager: permissionsManager,
             onPermissionsGranted: { [weak self] in
-                self?.permissionsWindow?.close()
-                // Monitoring was already started, but restart to ensure event taps work
-                self?.startMonitoring()
+                // Defer window close to next run loop to avoid issues with
+                // closing the window while SwiftUI button callback is still executing
+                DispatchQueue.main.async {
+                    self?.permissionsWindow?.close()
+                    self?.permissionsWindow = nil
+                    // Monitoring was already started, but restart to ensure event taps work
+                    self?.startMonitoring()
+                }
             }
         )
 
@@ -153,6 +172,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             defer: false
         )
         window.title = "DashPane - Permissions Required"
+        window.isReleasedWhenClosed = false  // Prevent issues when window is closed
         window.contentView = NSHostingView(rootView: contentView)
         window.center()
         window.makeKeyAndOrderFront(nil)
@@ -180,16 +200,33 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         keyboardEventManager.stopMonitoring()
         gestureEventManager.stopMonitoring()
         windowManager.stopMonitoring()
+        permissionsManager.stopContinuousPermissionMonitoring()
     }
 
     @objc private func handlePermissionRevoked() {
-        NSLog("DashPane: Accessibility permission revoked! Stopping event monitoring immediately.")
-        // CRITICAL: Stop monitoring immediately to prevent keyboard lockup
-        stopMonitoring()
+        // Prevent duplicate handling from multiple notification sources
+        guard !isHandlingPermissionChange else {
+            NSLog("DashPane: Ignoring duplicate permission revoked notification")
+            return
+        }
+        isHandlingPermissionChange = true
 
-        // Show permissions window so user knows what happened
+        NSLog("DashPane: Accessibility permission revoked! Stopping event monitoring immediately.")
+
+        // All operations must happen on main thread for thread safety
         DispatchQueue.main.async { [weak self] in
-            self?.showPermissionsWindow()
+            guard let self = self else { return }
+
+            // CRITICAL: Stop monitoring immediately to prevent keyboard lockup
+            self.stopMonitoring()
+
+            // Show permissions window so user knows what happened
+            self.showPermissionsWindow()
+
+            // Reset flag after a short delay to allow for stabilization
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+                self?.isHandlingPermissionChange = false
+            }
         }
     }
 
