@@ -47,11 +47,15 @@ class PermissionsManager: ObservableObject {
     }
 
     /// Start continuous monitoring for permission changes (including revocation)
+    /// Note: This is a BACKUP safety mechanism. The primary protection is in the event tap callbacks
+    /// which check permissions on every event and disable taps immediately if permission is lost.
     func startContinuousPermissionMonitoring() {
         // Stop any existing timer
         permissionMonitorTimer?.invalidate()
 
-        permissionMonitorTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+        // Use a shorter interval (0.2s) as a backup safety net
+        // The event tap callbacks provide instant detection, but this catches edge cases
+        permissionMonitorTimer = Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true) { [weak self] _ in
             guard let self = self else { return }
 
             let currentStatus = AXIsProcessTrusted()

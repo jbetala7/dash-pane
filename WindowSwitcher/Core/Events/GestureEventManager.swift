@@ -1,4 +1,5 @@
 import Cocoa
+import ApplicationServices
 
 // MARK: - Enums
 
@@ -33,6 +34,11 @@ class GestureEventManager {
     private var eventTap: CFMachPort?
     private var runLoopSource: CFRunLoopSource?
 
+    // Permission checking - cached to avoid constant API calls
+    fileprivate var lastPermissionCheck: Date = Date()
+    fileprivate var cachedPermissionStatus: Bool = true
+    fileprivate let permissionCheckInterval: TimeInterval = 0.1 // Check every 100ms at most
+
     // Configuration
     var edgeThreshold: CGFloat = 20.0  // pixels from edge (reduced for easier trigger)
     var scrollThreshold: CGFloat = 3.0 // minimum scroll delta to trigger
@@ -46,6 +52,10 @@ class GestureEventManager {
     // MARK: - Lifecycle
 
     func startMonitoring() {
+        // Reset permission cache to ensure we check immediately
+        lastPermissionCheck = Date.distantPast
+        cachedPermissionStatus = AXIsProcessTrusted()
+
         let eventMask: CGEventMask = (1 << CGEventType.scrollWheel.rawValue)
 
         let userInfo = Unmanaged.passUnretained(self).toOpaque()
@@ -88,11 +98,57 @@ class GestureEventManager {
 
     // MARK: - Event Handling
 
+    /// Check if accessibility permission is still granted (with caching for performance)
+    fileprivate func checkPermissionQuick() -> Bool {
+        let now = Date()
+        if now.timeIntervalSince(lastPermissionCheck) >= permissionCheckInterval {
+            lastPermissionCheck = now
+            cachedPermissionStatus = AXIsProcessTrusted()
+        }
+        return cachedPermissionStatus
+    }
+
+    /// Emergency permission check and tap disable - called when something seems wrong
+    fileprivate func emergencyPermissionCheck() -> Bool {
+        let hasPermission = AXIsProcessTrusted()
+        cachedPermissionStatus = hasPermission
+        lastPermissionCheck = Date()
+
+        if !hasPermission {
+            // CRITICAL: Immediately disable the tap to prevent system lockup
+            NSLog("GestureEventManager: Permission lost! Disabling event tap immediately.")
+            if let eventTap = eventTap {
+                CGEvent.tapEnable(tap: eventTap, enable: false)
+            }
+            // Notify the system that permission was revoked
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(
+                    name: .accessibilityPermissionRevoked,
+                    object: nil
+                )
+            }
+        }
+        return hasPermission
+    }
+
     fileprivate func handleScrollEvent(type: CGEventType, event: CGEvent) -> Unmanaged<CGEvent>? {
+        // CRITICAL: Check permissions FIRST, before doing anything else
+        // This prevents mouse/trackpad lockup when accessibility permission is revoked
+        if !checkPermissionQuick() {
+            // Permission might be revoked - do a full check and disable if needed
+            if !emergencyPermissionCheck() {
+                // Permission definitely revoked - pass event through unmodified
+                return Unmanaged.passRetained(event)
+            }
+        }
+
         // Re-enable tap if needed
         if type == .tapDisabledByTimeout || type == .tapDisabledByUserInput {
-            if let eventTap = eventTap {
-                CGEvent.tapEnable(tap: eventTap, enable: true)
+            // Before re-enabling, verify we still have permission
+            if emergencyPermissionCheck() {
+                if let eventTap = eventTap {
+                    CGEvent.tapEnable(tap: eventTap, enable: true)
+                }
             }
             return Unmanaged.passRetained(event)
         }

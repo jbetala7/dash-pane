@@ -1,5 +1,6 @@
 import Cocoa
 import Carbon
+import ApplicationServices
 
 // MARK: - Protocols
 
@@ -22,6 +23,11 @@ class KeyboardEventManager {
     private var runLoopSource: CFRunLoopSource?
     private var isCommandHeld = false
 
+    // Permission checking - cached to avoid constant API calls
+    fileprivate var lastPermissionCheck: Date = Date()
+    fileprivate var cachedPermissionStatus: Bool = true
+    fileprivate let permissionCheckInterval: TimeInterval = 0.1 // Check every 100ms at most
+
     // Configuration
     var enableCommandTabOverride = true
     var enableControlSpace = true
@@ -29,6 +35,10 @@ class KeyboardEventManager {
     // MARK: - Lifecycle
 
     func startMonitoring() {
+        // Reset permission cache to ensure we check immediately
+        lastPermissionCheck = Date.distantPast
+        cachedPermissionStatus = AXIsProcessTrusted()
+
         // Event mask for key events and modifier changes
         let eventMask: CGEventMask = (1 << CGEventType.flagsChanged.rawValue)
             | (1 << CGEventType.keyDown.rawValue)
@@ -76,11 +86,57 @@ class KeyboardEventManager {
 
     // MARK: - Event Handling
 
-    fileprivate func handleEvent(proxy: CGEventTapProxy, type: CGEventType, event: CGEvent) -> Unmanaged<CGEvent>? {
-        // Re-enable tap if it was disabled
-        if type == .tapDisabledByTimeout || type == .tapDisabledByUserInput {
+    /// Check if accessibility permission is still granted (with caching for performance)
+    fileprivate func checkPermissionQuick() -> Bool {
+        let now = Date()
+        if now.timeIntervalSince(lastPermissionCheck) >= permissionCheckInterval {
+            lastPermissionCheck = now
+            cachedPermissionStatus = AXIsProcessTrusted()
+        }
+        return cachedPermissionStatus
+    }
+
+    /// Emergency permission check and tap disable - called when something seems wrong
+    fileprivate func emergencyPermissionCheck() -> Bool {
+        let hasPermission = AXIsProcessTrusted()
+        cachedPermissionStatus = hasPermission
+        lastPermissionCheck = Date()
+
+        if !hasPermission {
+            // CRITICAL: Immediately disable the tap to prevent system lockup
+            NSLog("KeyboardEventManager: Permission lost! Disabling event tap immediately.")
             if let eventTap = eventTap {
-                CGEvent.tapEnable(tap: eventTap, enable: true)
+                CGEvent.tapEnable(tap: eventTap, enable: false)
+            }
+            // Notify the system that permission was revoked
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(
+                    name: .accessibilityPermissionRevoked,
+                    object: nil
+                )
+            }
+        }
+        return hasPermission
+    }
+
+    fileprivate func handleEvent(proxy: CGEventTapProxy, type: CGEventType, event: CGEvent) -> Unmanaged<CGEvent>? {
+        // CRITICAL: Check permissions FIRST, before doing anything else
+        // This prevents keyboard lockup when accessibility permission is revoked
+        if !checkPermissionQuick() {
+            // Permission might be revoked - do a full check and disable if needed
+            if !emergencyPermissionCheck() {
+                // Permission definitely revoked - pass event through unmodified
+                return Unmanaged.passRetained(event)
+            }
+        }
+
+        // Handle tap disabled events
+        if type == .tapDisabledByTimeout || type == .tapDisabledByUserInput {
+            // Before re-enabling, verify we still have permission
+            if emergencyPermissionCheck() {
+                if let eventTap = eventTap {
+                    CGEvent.tapEnable(tap: eventTap, enable: true)
+                }
             }
             return Unmanaged.passRetained(event)
         }
