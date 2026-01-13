@@ -82,26 +82,47 @@ echo -e "${GREEN}Export successful${NC}"
 # Create DMG
 echo -e "${YELLOW}Creating DMG...${NC}"
 
-# Create a temporary folder for DMG contents
-DMG_TEMP="$BUILD_DIR/dmg-temp"
-mkdir -p "$DMG_TEMP"
+# Check if create-dmg is installed
+if command -v create-dmg &> /dev/null; then
+    # Build create-dmg command with available options
+    # Layout: App on left, Applications folder on right (like Claude)
+    CREATE_DMG_OPTS=(
+        --volname "$PROJECT_NAME"
+        --window-pos 200 120
+        --window-size 660 400
+        --icon-size 128
+        --icon "$PROJECT_NAME.app" 180 200
+        --hide-extension "$PROJECT_NAME.app"
+        --app-drop-link 480 200
+    )
 
-# Copy app to temp folder
-cp -R "$EXPORT_PATH/$PROJECT_NAME.app" "$DMG_TEMP/"
+    # Add volume icon if available
+    if [ -f "Resources/VolumeIcon.icns" ]; then
+        CREATE_DMG_OPTS+=(--volicon "Resources/VolumeIcon.icns")
+    fi
 
-# Create symlink to Applications folder
-ln -s /Applications "$DMG_TEMP/Applications"
+    # Add background if available
+    if [ -f "Resources/dmg-background.png" ]; then
+        CREATE_DMG_OPTS+=(--background "Resources/dmg-background.png")
+    fi
 
-# Create DMG
-hdiutil create \
-    -volname "$PROJECT_NAME" \
-    -srcfolder "$DMG_TEMP" \
-    -ov \
-    -format UDZO \
-    "$BUILD_DIR/$DMG_NAME"
-
-# Clean up temp folder
-rm -rf "$DMG_TEMP"
+    # Create the DMG
+    create-dmg "${CREATE_DMG_OPTS[@]}" "$BUILD_DIR/$DMG_NAME" "$EXPORT_PATH/$PROJECT_NAME.app"
+else
+    # Fallback to basic hdiutil
+    echo -e "${YELLOW}create-dmg not found, using basic DMG creation...${NC}"
+    DMG_TEMP="$BUILD_DIR/dmg-temp"
+    mkdir -p "$DMG_TEMP"
+    cp -R "$EXPORT_PATH/$PROJECT_NAME.app" "$DMG_TEMP/"
+    ln -s /Applications "$DMG_TEMP/Applications"
+    hdiutil create \
+        -volname "$PROJECT_NAME" \
+        -srcfolder "$DMG_TEMP" \
+        -ov \
+        -format UDZO \
+        "$BUILD_DIR/$DMG_NAME"
+    rm -rf "$DMG_TEMP"
+fi
 
 echo -e "${GREEN}DMG created: $BUILD_DIR/$DMG_NAME${NC}"
 
