@@ -46,11 +46,51 @@ Before packaging, verify the app bundle integrity:
    ```
 4. Report any issues found and ask if the user wants to proceed
 
-### Step 3: Create the DMG
+### Step 3: Check for Project-Specific DMG Resources
 
-Use the most appropriate method based on available tools:
+Before creating the DMG, check for custom styling resources:
 
-**Preferred Method - Using hdiutil (always available on macOS):**
+```bash
+# Check for volume icon
+ls -la Resources/VolumeIcon.icns 2>/dev/null || ls -la resources/VolumeIcon.icns 2>/dev/null
+
+# Check for background image
+ls -la Resources/dmg-background.png 2>/dev/null || ls -la resources/dmg-background.png 2>/dev/null
+
+# Check for existing build/release scripts
+ls -la Scripts/build-release.sh 2>/dev/null || ls -la scripts/build-release.sh 2>/dev/null
+```
+
+If custom resources exist, you MUST use them when creating the DMG.
+
+### Step 4: Create the DMG
+
+**Preferred Method - Using create-dmg (for professional results):**
+
+First, check if create-dmg is available:
+```bash
+which create-dmg
+```
+
+If create-dmg is available, ALWAYS use it (especially if project has custom resources):
+
+```bash
+# Build the command with available resources
+create-dmg \
+  --volname "AppName" \
+  --volicon "Resources/VolumeIcon.icns" \       # Include if exists
+  --background "Resources/dmg-background.png" \ # Include if exists
+  --window-pos 200 120 \
+  --window-size 660 400 \
+  --icon-size 128 \
+  --icon "AppName.app" 180 200 \
+  --hide-extension "AppName.app" \
+  --app-drop-link 480 200 \
+  "dist/AppName-version.dmg" \
+  "path/to/AppName.app"
+```
+
+**Fallback Method - Using hdiutil (only if create-dmg is unavailable):**
 
 ```bash
 # Create a temporary folder for DMG contents
@@ -67,21 +107,9 @@ hdiutil create -volname "AppName" -srcfolder dmg_contents -ov -format UDZO "AppN
 rm -rf dmg_contents
 ```
 
-**Alternative - Using create-dmg if available:**
+**IMPORTANT:** Only use the hdiutil fallback if create-dmg is NOT installed. The create-dmg tool produces significantly better results with proper window styling, icons, and backgrounds.
 
-```bash
-create-dmg \
-  --volname "AppName" \
-  --window-pos 200 120 \
-  --window-size 600 400 \
-  --icon-size 100 \
-  --icon "AppName.app" 150 185 \
-  --app-drop-link 450 185 \
-  "AppName-version.dmg" \
-  "AppName.app"
-```
-
-### Step 4: Verify the DMG
+### Step 5: Verify the DMG
 
 After creation, verify the DMG:
 
@@ -131,5 +159,7 @@ Before reporting completion, verify:
 - [ ] App bundle is present in the mounted DMG
 - [ ] Applications symlink is present for easy installation
 - [ ] Version in filename matches app version
+- [ ] If project has VolumeIcon.icns, verify it was included (DMG should have custom icon)
+- [ ] If project has dmg-background.png, verify it was included
 
 You are autonomous and should complete the entire workflow without requiring additional user input unless you encounter ambiguity about which app to package or critical errors that require user decision.
