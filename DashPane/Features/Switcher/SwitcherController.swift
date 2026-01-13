@@ -53,8 +53,13 @@ class SwitcherController: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     private var localEventMonitor: Any?
 
-    // Shortcut mapping for quick lookup
+    // Shortcut mapping for quick lookup (shortcut -> display index)
     private var shortcutMap: [String: Int] = [:]
+
+    // Persistent shortcut cache (window key -> shortcut letter)
+    // Key is "appName|windowTitle" to uniquely identify each window
+    // This ensures shortcuts stay consistent even when window order changes
+    private var windowShortcutCache: [String: String] = [:]
 
     // MARK: - Initialization
 
@@ -335,16 +340,41 @@ class SwitcherController: ObservableObject {
     /// Generate display items - flat MRU list
     private func generateDisplayItems() {
         var items: [DisplayItem] = []
-        var usedShortcuts: Set<String> = []
         shortcutMap.removeAll()
 
-        // Flat list - pure MRU order
+        // Generate a unique key for each window (appName|windowTitle)
+        func windowKey(for window: WindowInfo) -> String {
+            return "\(window.ownerName)|\(window.windowTitle)"
+        }
+
+        // Collect all current window keys
+        let currentWindowKeys = Set(filteredResults.map { windowKey(for: $0.window) })
+
+        // Remove cached shortcuts for windows that are no longer in the list
+        windowShortcutCache = windowShortcutCache.filter { currentWindowKeys.contains($0.key) }
+
+        // Build set of already-used shortcuts from cache
+        var usedShortcuts = Set(windowShortcutCache.values)
+
+        // Assign shortcuts to any new windows that don't have one yet
+        for result in filteredResults {
+            let key = windowKey(for: result.window)
+            if windowShortcutCache[key] == nil {
+                let shortcut = generateUniqueShortcut(for: result.window.ownerName, usedShortcuts: &usedShortcuts)
+                windowShortcutCache[key] = shortcut
+                usedShortcuts.insert(shortcut)
+            }
+        }
+
+        // Build display items using cached shortcuts
         for window in filteredResults.map({ $0.window }) {
-            let shortcut = generateUniqueShortcut(for: window.ownerName, usedShortcuts: &usedShortcuts)
-            usedShortcuts.insert(shortcut)
+            let key = windowKey(for: window)
+            let shortcut = windowShortcutCache[key] ?? ""
 
             let itemIndex = items.count
-            shortcutMap[shortcut] = itemIndex
+            if !shortcut.isEmpty {
+                shortcutMap[shortcut] = itemIndex
+            }
 
             items.append(DisplayItem(
                 id: "window-\(window.id)",
