@@ -63,7 +63,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
 
         if let button = statusItem?.button {
-            button.image = NSImage(systemSymbolName: "square.stack.3d.up", accessibilityDescription: "DashPane")
+            if let menuBarIcon = NSImage(named: "MenuBarIcon") {
+                menuBarIcon.isTemplate = true
+                button.image = menuBarIcon
+            } else {
+                // Fallback to system symbol
+                button.image = NSImage(systemSymbolName: "square.stack.3d.up", accessibilityDescription: "DashPane")
+            }
             button.action = #selector(statusBarButtonClicked)
             button.target = self
             NSLog("DashPane: Status bar button configured")
