@@ -332,92 +332,27 @@ class SwitcherController: ObservableObject {
         return result
     }
 
-    /// Generate display items with section headers for desktops/fullscreen
+    /// Generate display items - flat MRU list
     private func generateDisplayItems() {
         var items: [DisplayItem] = []
         var usedShortcuts: Set<String> = []
         shortcutMap.removeAll()
 
-        // Group windows by category
-        let grouped = groupWindowsByCategory(filteredResults.map { $0.window })
+        // Flat list - pure MRU order
+        for window in filteredResults.map({ $0.window }) {
+            let shortcut = generateUniqueShortcut(for: window.ownerName, usedShortcuts: &usedShortcuts)
+            usedShortcuts.insert(shortcut)
 
-        // Determine if we need section headers (multiple groups or fullscreen apps)
-        let needsSections = grouped.count > 1 ||
-                          grouped.keys.contains(where: { $0.hasPrefix("Full Screen") })
+            let itemIndex = items.count
+            shortcutMap[shortcut] = itemIndex
 
-        // Define display order: Current Desktop first, then other desktops, then fullscreen
-        let orderedKeys = grouped.keys.sorted { key1, key2 in
-            if key1.hasPrefix("Desktop 1") || key1 == "Current Desktop" { return true }
-            if key2.hasPrefix("Desktop 1") || key2 == "Current Desktop" { return false }
-            if key1.hasPrefix("Full Screen") { return false }
-            if key2.hasPrefix("Full Screen") { return true }
-            return key1 < key2
-        }
-
-        for category in orderedKeys {
-            guard let windows = grouped[category] else { continue }
-
-            // Add section header if needed
-            if needsSections {
-                items.append(DisplayItem(
-                    id: "header-\(category)",
-                    type: .sectionHeader(title: category)
-                ))
-            }
-
-            // Add windows
-            for window in windows {
-                let shortcut = generateUniqueShortcut(for: window.ownerName, usedShortcuts: &usedShortcuts)
-                usedShortcuts.insert(shortcut)
-
-                // Store the displayItems index for this shortcut
-                let itemIndex = items.count
-                shortcutMap[shortcut] = itemIndex
-
-                items.append(DisplayItem(
-                    id: "window-\(window.id)",
-                    type: .windowItem(window: window, shortcut: shortcut)
-                ))
-            }
+            items.append(DisplayItem(
+                id: "window-\(window.id)",
+                type: .windowItem(window: window, shortcut: shortcut)
+            ))
         }
 
         displayItems = items
-    }
-
-    /// Group windows by category (Desktop X, Full Screen)
-    private func groupWindowsByCategory(_ windows: [WindowInfo]) -> [String: [WindowInfo]] {
-        var groups: [String: [WindowInfo]] = [:]
-
-        // Get current space for comparison
-        let enumerator = WindowEnumerator()
-        let currentSpaceID = enumerator.getCurrentSpaceID()
-        let allSpaceIDs = enumerator.getAllSpaceIDs()
-
-        for window in windows {
-            let category: String
-
-            if window.isFullscreen {
-                category = "Full Screen"
-            } else if let spaceID = window.spaceID {
-                // Determine desktop number
-                if let spaceIndex = allSpaceIDs.firstIndex(of: UInt64(spaceID)) {
-                    category = "Desktop \(spaceIndex + 1)"
-                } else if UInt64(spaceID) == currentSpaceID {
-                    category = "Desktop 1"
-                } else {
-                    category = "Desktop 1"
-                }
-            } else {
-                category = "Desktop 1"
-            }
-
-            if groups[category] == nil {
-                groups[category] = []
-            }
-            groups[category]?.append(window)
-        }
-
-        return groups
     }
 
     /// Generate a unique SINGLE letter shortcut for an app name

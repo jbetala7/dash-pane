@@ -67,6 +67,11 @@ class AppActivationTracker: ObservableObject {
     // MARK: - Tracking
 
     private func appActivated(pid: pid_t) {
+        // Ignore our own app - don't let switcher affect MRU order
+        if pid == ProcessInfo.processInfo.processIdentifier {
+            return
+        }
+
         // Remove from current position and add to front
         activationOrder.removeAll { $0 == pid }
         activationOrder.insert(pid, at: 0)
