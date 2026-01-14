@@ -13,8 +13,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var sidebarController: SidebarController!
 
     private var permissionsWindow: NSWindow?
+    private var licenseWindow: NSWindow?
     private var statusItem: NSStatusItem?
     private var isHandlingPermissionChange = false
+
+    /// Set to true to enable trial mode (app works without license)
+    /// Set to false to require license activation before use
+    private let allowTrialMode = false
 
     // MARK: - Lifecycle
 
@@ -44,8 +49,80 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             object: nil
         )
 
-        // Check permissions on launch
-        checkPermissions()
+        // Check license status
+        checkLicenseAndContinue()
+    }
+
+    // MARK: - License
+
+    private func checkLicenseAndContinue() {
+        let licenseManager = LicenseManager.shared
+
+        if licenseManager.isLicensed {
+            // Already licensed, continue with normal startup
+            NSLog("DashPane: License valid, continuing startup")
+            checkPermissions()
+        } else if allowTrialMode {
+            // Trial mode enabled, show license prompt but allow continue
+            NSLog("DashPane: Trial mode - showing license prompt")
+            showLicenseWindow(allowSkip: true)
+            // Continue with normal startup in background
+            checkPermissions()
+        } else {
+            // License required, block until activated
+            NSLog("DashPane: License required - showing activation window")
+            showLicenseWindow(allowSkip: false)
+        }
+    }
+
+    private func showLicenseWindow(allowSkip: Bool) {
+        // Don't show if already licensed
+        guard !LicenseManager.shared.isLicensed else { return }
+
+        // If window already exists and is visible, just bring it to front
+        if let existingWindow = licenseWindow, existingWindow.isVisible {
+            existingWindow.makeKeyAndOrderFront(nil)
+            NSApp.activate(ignoringOtherApps: true)
+            return
+        }
+
+        let contentView = LicenseActivationWindow(
+            onActivated: { [weak self] in
+                NSLog("DashPane: License activated successfully")
+                self?.licenseWindow?.close()
+                self?.licenseWindow = nil
+                // If we were blocking, now continue with permissions
+                if !self!.allowTrialMode {
+                    self?.checkPermissions()
+                }
+            },
+            onSkip: allowSkip ? { [weak self] in
+                NSLog("DashPane: User skipped license activation (trial mode)")
+                self?.licenseWindow?.close()
+                self?.licenseWindow = nil
+            } : nil
+        )
+
+        let window = NSWindow(
+            contentRect: NSRect(x: 0, y: 0, width: 500, height: 450),
+            styleMask: [.titled, .closable],
+            backing: .buffered,
+            defer: false
+        )
+        window.title = "DashPane - License Activation"
+        window.isReleasedWhenClosed = false
+        window.contentView = NSHostingView(rootView: contentView)
+        window.center()
+
+        // Only block closing if license is required
+        if !allowSkip {
+            window.styleMask.remove(.closable)
+        }
+
+        window.makeKeyAndOrderFront(nil)
+        NSApp.activate(ignoringOtherApps: true)
+
+        licenseWindow = window
     }
 
     func applicationWillTerminate(_ notification: Notification) {
@@ -82,6 +159,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(NSMenuItem.separator())
         menu.addItem(NSMenuItem(title: "Restart Keyboard Shortcuts", action: #selector(restartKeyboardAction), keyEquivalent: ""))
         menu.addItem(NSMenuItem(title: "Check Permissions...", action: #selector(showPermissionsAction), keyEquivalent: ""))
+        menu.addItem(NSMenuItem(title: "License...", action: #selector(showLicenseAction), keyEquivalent: ""))
         menu.addItem(NSMenuItem(title: "Settings...", action: #selector(showSettingsAction), keyEquivalent: ","))
         menu.addItem(NSMenuItem.separator())
         menu.addItem(NSMenuItem(title: "Quit DashPane", action: #selector(quitAction), keyEquivalent: "q"))
@@ -113,6 +191,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     @objc private func showPermissionsAction() {
         showPermissionsWindow()
+    }
+
+    @objc private func showLicenseAction() {
+        showLicenseWindow(allowSkip: true)
     }
 
     @objc private func showSettingsAction() {

@@ -25,12 +25,17 @@ struct SettingsView: View {
                     Label("Gestures", systemImage: "hand.draw")
                 }
 
+            LicenseSettingsView()
+                .tabItem {
+                    Label("License", systemImage: "key")
+                }
+
             AboutView()
                 .tabItem {
                     Label("About", systemImage: "info.circle")
                 }
         }
-        .frame(width: 450, height: 300)
+        .frame(width: 480, height: 350)
     }
 }
 
@@ -168,6 +173,113 @@ struct GestureSettingsView: View {
         }
         .formStyle(.grouped)
         .padding()
+    }
+}
+
+// MARK: - License Settings
+
+struct LicenseSettingsView: View {
+    @ObservedObject var licenseManager = LicenseManager.shared
+    @State private var licenseKeyInput: String = ""
+    @State private var showDeactivateConfirm: Bool = false
+
+    var body: some View {
+        Form {
+            if licenseManager.isLicensed {
+                // Licensed state
+                Section {
+                    HStack {
+                        Image(systemName: "checkmark.seal.fill")
+                            .foregroundColor(.green)
+                            .font(.title2)
+                        VStack(alignment: .leading) {
+                            Text("DashPane Pro")
+                                .font(.headline)
+                            Text("Licensed")
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                        }
+                        Spacer()
+                    }
+                }
+
+                Section("License Details") {
+                    if let key = licenseManager.licenseKey {
+                        LabeledContent("Key") {
+                            Text(maskLicenseKey(key))
+                                .font(.system(.body, design: .monospaced))
+                        }
+                    }
+                    LabeledContent("Machine") {
+                        Text(licenseManager.getMachineName())
+                    }
+                }
+
+                Section {
+                    Button("Deactivate License", role: .destructive) {
+                        showDeactivateConfirm = true
+                    }
+                    .alert("Deactivate License?", isPresented: $showDeactivateConfirm) {
+                        Button("Cancel", role: .cancel) { }
+                        Button("Deactivate", role: .destructive) {
+                            licenseManager.deactivateLicense { _, _ in }
+                        }
+                    } message: {
+                        Text("This will remove the license from this Mac.")
+                    }
+                }
+            } else {
+                // Unlicensed state
+                Section("Activate License") {
+                    TextField("DASH-XXXX-XXXX-XXXX", text: $licenseKeyInput)
+                        .font(.system(.body, design: .monospaced))
+                        .onChange(of: licenseKeyInput) { newValue in
+                            licenseKeyInput = licenseManager.formatLicenseKey(newValue)
+                        }
+                        .disabled(licenseManager.isActivating)
+
+                    if let error = licenseManager.activationError {
+                        Text(error)
+                            .foregroundColor(.red)
+                            .font(.caption)
+                    }
+
+                    Button(action: activateLicense) {
+                        if licenseManager.isActivating {
+                            ProgressView()
+                                .scaleEffect(0.7)
+                        } else {
+                            Text("Activate")
+                        }
+                    }
+                    .disabled(licenseKeyInput.isEmpty || licenseManager.isActivating)
+                }
+
+                Section {
+                    Button("Purchase License") {
+                        if let url = URL(string: "https://dashpane.com/purchase") {
+                            NSWorkspace.shared.open(url)
+                        }
+                    }
+                }
+            }
+        }
+        .formStyle(.grouped)
+        .padding()
+    }
+
+    private func activateLicense() {
+        licenseManager.activateLicense(key: licenseKeyInput) { success, _ in
+            if success {
+                licenseKeyInput = ""
+            }
+        }
+    }
+
+    private func maskLicenseKey(_ key: String) -> String {
+        let components = key.split(separator: "-")
+        guard components.count == 4 else { return key }
+        return "\(components[0])-\(components[1])-****-****"
     }
 }
 

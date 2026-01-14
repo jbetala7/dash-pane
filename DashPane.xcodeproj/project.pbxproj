@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A10000500000000000000050 /* LicenseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000500000000000000050 /* LicenseManager.swift */; };
+		A10000510000000000000051 /* LicenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000510000000000000051 /* LicenseView.swift */; };
 		A10000010000000000000001 /* DashPaneApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000010000000000000001 /* DashPaneApp.swift */; };
 		A10000020000000000000002 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000020000000000000002 /* AppDelegate.swift */; };
 		A10000030000000000000003 /* PermissionsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000030000000000000003 /* PermissionsManager.swift */; };
@@ -37,6 +39,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A20000500000000000000050 /* LicenseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicenseManager.swift; sourceTree = "<group>"; };
+		A20000510000000000000051 /* LicenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicenseView.swift; sourceTree = "<group>"; };
 		A20000010000000000000001 /* DashPaneApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashPaneApp.swift; sourceTree = "<group>"; };
 		A20000020000000000000002 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A20000030000000000000003 /* PermissionsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsManager.swift; sourceTree = "<group>"; };
@@ -142,8 +146,18 @@
 				A5000013000000000000000D /* Spaces */,
 				A5000014000000000000000E /* Events */,
 				A5000015000000000000000F /* Search */,
+				A5000050000000000000005A /* Licensing */,
 			);
 			path = Core;
+			sourceTree = "<group>";
+		};
+		A5000050000000000000005A /* Licensing */ = {
+			isa = PBXGroup;
+			children = (
+				A20000500000000000000050 /* LicenseManager.swift */,
+				A20000510000000000000051 /* LicenseView.swift */,
+			);
+			path = Licensing;
 			sourceTree = "<group>";
 		};
 		A50000070000000000000007 /* Features */ = {
@@ -334,6 +348,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A10000500000000000000050 /* LicenseManager.swift in Sources */,
+				A10000510000000000000051 /* LicenseView.swift in Sources */,
 				A10000010000000000000001 /* DashPaneApp.swift in Sources */,
 				A10000020000000000000002 /* AppDelegate.swift in Sources */,
 				A10000030000000000000003 /* PermissionsManager.swift in Sources */,
