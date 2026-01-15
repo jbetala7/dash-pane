@@ -91,6 +91,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 NSLog("DashPane: License activated successfully")
                 self?.licenseWindow?.close()
                 self?.licenseWindow = nil
+                // Update menu bar to remove license menu item
+                self?.updateStatusBarMenu()
                 // If we were blocking, now continue with permissions
                 if !self!.allowTrialMode {
                     self?.checkPermissions()
@@ -152,20 +154,28 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             NSLog("DashPane: Status bar button configured")
         }
 
-        // Create menu
+        updateStatusBarMenu()
+        NSLog("DashPane: Status bar menu configured")
+    }
+
+    private func updateStatusBarMenu() {
         let menu = NSMenu()
         menu.addItem(NSMenuItem(title: "Show Switcher (Ctrl+Space)", action: #selector(showSwitcherAction), keyEquivalent: ""))
         menu.addItem(NSMenuItem(title: "Show Sidebar", action: #selector(showSidebarAction), keyEquivalent: ""))
         menu.addItem(NSMenuItem.separator())
         menu.addItem(NSMenuItem(title: "Restart Keyboard Shortcuts", action: #selector(restartKeyboardAction), keyEquivalent: ""))
         menu.addItem(NSMenuItem(title: "Check Permissions...", action: #selector(showPermissionsAction), keyEquivalent: ""))
-        menu.addItem(NSMenuItem(title: "License...", action: #selector(showLicenseAction), keyEquivalent: ""))
+
+        // Only show License menu item if app is not licensed
+        if !LicenseManager.shared.isLicensed {
+            menu.addItem(NSMenuItem(title: "Activate License...", action: #selector(showLicenseAction), keyEquivalent: ""))
+        }
+
         menu.addItem(NSMenuItem(title: "Settings...", action: #selector(showSettingsAction), keyEquivalent: ","))
         menu.addItem(NSMenuItem.separator())
         menu.addItem(NSMenuItem(title: "Quit DashPane", action: #selector(quitAction), keyEquivalent: "q"))
 
         statusItem?.menu = menu
-        NSLog("DashPane: Status bar menu configured")
     }
 
     @objc private func statusBarButtonClicked() {
@@ -194,7 +204,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @objc private func showLicenseAction() {
-        showLicenseWindow(allowSkip: true)
+        // Show activation window for unlicensed users (this menu item is hidden when licensed)
+        showLicenseWindow(allowSkip: false)
     }
 
     @objc private func showSettingsAction() {
