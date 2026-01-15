@@ -72,6 +72,15 @@ app.post('/dev-license', express.json(), async (req, res) => {
 
         console.log(`Dev license created: ${licenseKey}`);
 
+        // Send the license email
+        const customerName = req.body.name || 'Customer';
+        try {
+            await sendLicenseEmail(email, licenseKey, customerName);
+            console.log(`License email sent to ${email}`);
+        } catch (emailError) {
+            console.error('Failed to send license email:', emailError);
+        }
+
         res.json({
             success: true,
             license_key: licenseKey,
