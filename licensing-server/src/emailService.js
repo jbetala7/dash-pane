@@ -19,7 +19,8 @@ async function sendLicenseEmail(email, licenseKey, customerName = 'Customer') {
     const client = getResend();
 
     const fromEmail = process.env.EMAIL_FROM || 'DashPane <onboarding@resend.dev>';
-    const maxActivations = process.env.MAX_ACTIVATIONS_PER_LICENSE || 2;
+    const maxActivations = process.env.MAX_ACTIVATIONS_PER_LICENSE || 1;
+    const macText = maxActivations == 1 ? '1 Mac' : `${macText}`;
 
     const htmlContent = `
 <!DOCTYPE html>
@@ -162,7 +163,7 @@ async function sendLicenseEmail(email, licenseKey, customerName = 'Customer') {
                                                     <tr>
                                                         <td style="padding-right: 24px; border-right: 1px solid #e5e5e5;">
                                                             <p style="margin: 0; font-size: 12px; color: #6e6e73; text-transform: uppercase; letter-spacing: 0.5px;">Activations</p>
-                                                            <p style="margin: 4px 0 0 0; font-size: 20px; font-weight: 700; color: #1d1d1f;">${maxActivations} Macs</p>
+                                                            <p style="margin: 4px 0 0 0; font-size: 20px; font-weight: 700; color: #1d1d1f;">${macText}</p>
                                                         </td>
                                                         <td style="padding-left: 24px;">
                                                             <p style="margin: 0; font-size: 12px; color: #6e6e73; text-transform: uppercase; letter-spacing: 0.5px;">Support</p>
@@ -247,7 +248,7 @@ Keep this key safe - you'll need it if you reinstall.
               LICENSE DETAILS
 ═══════════════════════════════════════════════
 
-• Activations: ${maxActivations} Macs
+• Activations: ${macText}
 • Support: Lifetime updates included
 
 ═══════════════════════════════════════════════
