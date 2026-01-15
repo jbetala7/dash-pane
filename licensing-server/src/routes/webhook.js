@@ -74,11 +74,11 @@ router.post('/razorpay', express.json(), async (req, res) => {
             const payment = req.body.payload.payment.entity;
 
             const email = payment.email;
-            const phone = payment.contact;
+            const phone = payment.contact || null;
             const amount = payment.amount;
             const currency = payment.currency || 'INR';
             const paymentId = payment.id;
-            const orderId = payment.order_id;
+            const orderId = payment.order_id || null;
 
             console.log(`Payment captured: ${paymentId} from ${email}`);
 
