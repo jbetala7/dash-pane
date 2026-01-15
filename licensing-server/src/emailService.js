@@ -42,10 +42,8 @@ async function sendLicenseEmail(email, licenseKey, customerName = 'Customer') {
                             <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center">
                                 <tr>
                                     <td>
-                                        <!-- Logo Icon with Metallic Effect -->
-                                        <div style="display: inline-block; width: 64px; height: 64px; background: linear-gradient(135deg, #00D4FF 0%, #0066FF 50%, #00D4FF 100%); border-radius: 16px; margin-bottom: 20px; text-align: center; line-height: 64px; box-shadow: 0 8px 32px rgba(0, 212, 255, 0.4), inset 0 1px 0 rgba(255,255,255,0.3);">
-                                            <span style="font-size: 32px; color: #ffffff; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">D</span>
-                                        </div>
+                                        <!-- Logo Icon -->
+                                        <img src="https://dashpane.pro/email-logo.png" alt="DashPane" width="64" height="64" style="display: block; margin: 0 auto 20px auto; border-radius: 16px; box-shadow: 0 8px 32px rgba(0, 212, 255, 0.4);">
                                     </td>
                                 </tr>
                                 <tr>
@@ -211,9 +209,7 @@ async function sendLicenseEmail(email, licenseKey, customerName = 'Customer') {
                             <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" style="margin-bottom: 24px;">
                                 <tr>
                                     <td>
-                                        <div style="display: inline-block; width: 40px; height: 40px; background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; text-align: center; line-height: 40px;">
-                                            <span style="font-size: 18px; color: #00D4FF; font-weight: 700;">D</span>
-                                        </div>
+                                        <img src="https://dashpane.pro/email-logo.png" alt="DashPane" width="40" height="40" style="display: block; border-radius: 10px;">
                                     </td>
                                 </tr>
                             </table>

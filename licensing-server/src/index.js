@@ -1,6 +1,7 @@
 require('dotenv').config();
 
 const express = require('express');
+const path = require('path');
 const cors = require('cors');
 const helmet = require('helmet');
 
@@ -11,6 +12,9 @@ const { sendLicenseEmail } = require('./emailService');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Serve static files from public directory (before helmet for images)
+app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // Security middleware
 app.use(helmet());
