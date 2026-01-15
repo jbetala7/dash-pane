@@ -50,6 +50,39 @@ app.post('/test-email', express.json(), async (req, res) => {
     }
 });
 
+// Dev license generation endpoint (secured with webhook secret)
+app.post('/dev-license', express.json(), async (req, res) => {
+    const { email, secret } = req.body;
+
+    // Security check with webhook secret
+    if (secret !== process.env.RAZORPAY_WEBHOOK_SECRET) {
+        return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    try {
+        const { generateLicenseKey } = require('./licenseGenerator');
+        const { prepare } = require('./database');
+
+        const licenseKey = generateLicenseKey(process.env.LICENSE_PREFIX || 'DASH');
+
+        prepare(`
+            INSERT INTO licenses (license_key, email, phone, razorpay_payment_id, amount, currency)
+            VALUES (?, ?, ?, ?, ?, ?)
+        `).run(licenseKey, email || 'dev@dashpane.local', null, `dev_${Date.now()}`, 0, 'INR');
+
+        console.log(`Dev license created: ${licenseKey}`);
+
+        res.json({
+            success: true,
+            license_key: licenseKey,
+            email: email || 'dev@dashpane.local'
+        });
+    } catch (error) {
+        console.error('Dev license error:', error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
 // Routes
 app.use('/webhook', webhookRoutes);
 app.use('/api/license', licenseRoutes);
