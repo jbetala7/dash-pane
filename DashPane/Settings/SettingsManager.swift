@@ -98,11 +98,13 @@ class SettingsManager: ObservableObject {
         self.launchAtLogin = savedLaunchAtLogin ?? true
         self.theme = ThemeOption(rawValue: UserDefaults.standard.string(forKey: Keys.theme) ?? "") ?? .system
 
-        // On first launch, register for launch at login since it defaults to true
+        // On first launch, save the default value
         if savedLaunchAtLogin == nil {
             UserDefaults.standard.set(true, forKey: Keys.launchAtLogin)
-            updateLaunchAtLogin()
         }
+
+        // Always sync the OS login item state with the stored preference
+        updateLaunchAtLogin()
     }
 
     // MARK: - Launch at Login
