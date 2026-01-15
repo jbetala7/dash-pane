@@ -1,7 +1,7 @@
 ---
 name: dmg-builder
 description: "Use this agent when the user needs to create a DMG (disk image) file for a macOS application. This includes packaging the latest build of an app into a distributable DMG format, setting up custom DMG backgrounds, configuring app bundle icons, or preparing an application for distribution outside the Mac App Store.\\n\\nExamples:\\n\\n<example>\\nContext: The user has just finished building a new version of their macOS app and needs to package it.\\nuser: \"I just finished the new features for version 2.1, can you package it up?\"\\nassistant: \"I'll use the DMG builder agent to create a distributable disk image of your latest app version.\"\\n<Task tool invocation to launch dmg-builder agent>\\n</example>\\n\\n<example>\\nContext: The user mentions they need to distribute their app.\\nuser: \"I need to send the app to some beta testers\"\\nassistant: \"I'll launch the DMG builder agent to package your application into a disk image that you can easily share with your beta testers.\"\\n<Task tool invocation to launch dmg-builder agent>\\n</example>\\n\\n<example>\\nContext: The user has completed a release build.\\nuser: \"The release build is ready in the build folder\"\\nassistant: \"Since your release build is ready, I'll use the DMG builder agent to create a professional DMG file for distribution.\"\\n<Task tool invocation to launch dmg-builder agent>\\n</example>"
-model: sonnet
+model: opus
 color: green
 ---
 
