@@ -1,4 +1,5 @@
 import Foundation
+import ServiceManagement
 import SwiftUI
 
 class SettingsManager: ObservableObject {
@@ -93,16 +94,29 @@ class SettingsManager: ObservableObject {
         self.showWindowsFromAllSpaces = UserDefaults.standard.object(forKey: Keys.showWindowsFromAllSpaces) as? Bool ?? true
         self.showMinimizedWindows = UserDefaults.standard.object(forKey: Keys.showMinimizedWindows) as? Bool ?? false
 
-        self.launchAtLogin = UserDefaults.standard.object(forKey: Keys.launchAtLogin) as? Bool ?? false
+        let savedLaunchAtLogin = UserDefaults.standard.object(forKey: Keys.launchAtLogin) as? Bool
+        self.launchAtLogin = savedLaunchAtLogin ?? true
         self.theme = ThemeOption(rawValue: UserDefaults.standard.string(forKey: Keys.theme) ?? "") ?? .system
+
+        // On first launch, register for launch at login since it defaults to true
+        if savedLaunchAtLogin == nil {
+            UserDefaults.standard.set(true, forKey: Keys.launchAtLogin)
+            updateLaunchAtLogin()
+        }
     }
 
     // MARK: - Launch at Login
 
     private func updateLaunchAtLogin() {
-        // Note: Implementing launch at login requires using SMAppService (macOS 13+)
-        // or creating a login item helper app
-        // For simplicity, this is left as a placeholder
+        do {
+            if launchAtLogin {
+                try SMAppService.mainApp.register()
+            } else {
+                try SMAppService.mainApp.unregister()
+            }
+        } catch {
+            NSLog("Failed to update launch at login: \(error)")
+        }
     }
 
     // MARK: - Reset to Defaults
