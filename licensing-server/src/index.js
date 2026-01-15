@@ -7,6 +7,7 @@ const helmet = require('helmet');
 const { initDatabase } = require('./database');
 const webhookRoutes = require('./routes/webhook');
 const licenseRoutes = require('./routes/license');
+const { sendLicenseEmail } = require('./emailService');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -29,6 +30,24 @@ app.get('/health', (req, res) => {
         status: 'ok',
         timestamp: new Date().toISOString()
     });
+});
+
+// Test email endpoint (temporary - remove after testing)
+app.post('/test-email', express.json(), async (req, res) => {
+    const { email, secret } = req.body;
+
+    // Simple security check
+    if (secret !== process.env.RAZORPAY_WEBHOOK_SECRET) {
+        return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    try {
+        await sendLicenseEmail(email || 'jayesh.betala7@gmail.com', 'DASH-TEST-1234-ABCD');
+        res.json({ success: true, message: 'Test email sent' });
+    } catch (error) {
+        console.error('Test email error:', error);
+        res.status(500).json({ error: error.message });
+    }
 });
 
 // Routes

@@ -19,12 +19,7 @@ class LicenseManager: ObservableObject {
     // MARK: - Configuration
 
     /// Base URL for the licensing server
-    /// Change this to your production server URL when deploying
-    #if DEBUG
-    private let serverBaseURL = "http://localhost:3000"
-    #else
-    private let serverBaseURL = "https://your-licensing-server.com"  // TODO: Update with your server URL
-    #endif
+    private let serverBaseURL = "https://dash-pane-production.up.railway.app"
 
     // MARK: - Keychain Keys
 
