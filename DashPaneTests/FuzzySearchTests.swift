@@ -30,9 +30,7 @@ final class FuzzySearchTests: XCTestCase {
             bounds: CGRect(x: 0, y: 0, width: 800, height: 600),
             layer: 0,
             isOnScreen: true,
-            spaceID: nil,
-            thumbnail: nil,
-            appIcon: nil
+            spaceID: nil
         )
     }
 
