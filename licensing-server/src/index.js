@@ -42,11 +42,11 @@ app.post('/test-email', express.json(), async (req, res) => {
     }
 
     try {
-        await sendLicenseEmail(email || 'jayesh.betala7@gmail.com', 'DASH-TEST-1234-ABCD');
-        res.json({ success: true, message: 'Test email sent' });
+        const result = await sendLicenseEmail(email || 'jayesh.betala7@gmail.com', 'DASH-TEST-1234-ABCD', 'Test User');
+        res.json({ success: true, message: 'Test email sent', result });
     } catch (error) {
         console.error('Test email error:', error);
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: error.message, stack: error.stack });
     }
 });
 
