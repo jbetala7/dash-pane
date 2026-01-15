@@ -312,11 +312,11 @@ This email was sent to ${email} because you purchased DashPane.
 
         if (error) {
             console.error('Resend error:', error);
-            throw new Error(error.message);
+            throw new Error(JSON.stringify(error));
         }
 
         console.log(`License email sent to ${email}, id: ${data.id}`);
-        return true;
+        return { success: true, emailId: data.id, to: email };
     } catch (error) {
         console.error('Failed to send license email:', error);
         throw error;
