@@ -250,8 +250,7 @@ struct LicenseView: View {
     }
 
     private func openPurchasePage() {
-        // TODO: Update with your purchase page URL
-        if let url = URL(string: "https://dashpane.com/purchase") {
+        if let url = URL(string: "https://dashpane.pro#pricing") {
             NSWorkspace.shared.open(url)
         }
     }
@@ -330,7 +329,7 @@ struct LicenseActivationWindow: View {
             // Footer
             VStack(spacing: 12) {
                 Button("Purchase License") {
-                    if let url = URL(string: "https://dashpane.com/purchase") {
+                    if let url = URL(string: "https://dashpane.pro#pricing") {
                         NSWorkspace.shared.open(url)
                     }
                 }
