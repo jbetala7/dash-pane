@@ -1,21 +1,12 @@
-const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
 
-let transporter = null;
+let resend = null;
 
-function initializeTransporter() {
-    if (transporter) return transporter;
-
-    transporter = nodemailer.createTransport({
-        host: process.env.SMTP_HOST,
-        port: parseInt(process.env.SMTP_PORT) || 587,
-        secure: false,
-        auth: {
-            user: process.env.SMTP_USER,
-            pass: process.env.SMTP_PASS
-        }
-    });
-
-    return transporter;
+function getResend() {
+    if (!resend) {
+        resend = new Resend(process.env.RESEND_API_KEY);
+    }
+    return resend;
 }
 
 /**
@@ -25,13 +16,11 @@ function initializeTransporter() {
  * @param {string} customerName - Customer name (optional)
  */
 async function sendLicenseEmail(email, licenseKey, customerName = 'Customer') {
-    const transport = initializeTransporter();
+    const client = getResend();
 
-    const mailOptions = {
-        from: process.env.EMAIL_FROM || 'DashPane <noreply@dashpane.com>',
-        to: email,
-        subject: 'Your DashPane License Key',
-        html: `
+    const fromEmail = process.env.EMAIL_FROM || 'DashPane <onboarding@resend.dev>';
+
+    const htmlContent = `
 <!DOCTYPE html>
 <html>
 <head>
@@ -86,8 +75,9 @@ async function sendLicenseEmail(email, licenseKey, customerName = 'Customer') {
     </div>
 </body>
 </html>
-        `,
-        text: `
+    `;
+
+    const textContent = `
 Hi ${customerName},
 
 Thank you for purchasing DashPane! Here is your license key:
@@ -106,12 +96,23 @@ If you have any questions, please reply to this email.
 
 Best regards,
 The DashPane Team
-        `
-    };
+    `;
 
     try {
-        await transport.sendMail(mailOptions);
-        console.log(`License email sent to ${email}`);
+        const { data, error } = await client.emails.send({
+            from: fromEmail,
+            to: [email],
+            subject: 'Your DashPane License Key',
+            html: htmlContent,
+            text: textContent
+        });
+
+        if (error) {
+            console.error('Resend error:', error);
+            throw new Error(error.message);
+        }
+
+        console.log(`License email sent to ${email}, id: ${data.id}`);
         return true;
     } catch (error) {
         console.error('Failed to send license email:', error);
