@@ -65,49 +65,33 @@ If custom resources exist, you MUST use them when creating the DMG.
 
 ### Step 4: Create the DMG
 
-**Preferred Method - Using create-dmg (for professional results):**
+**Preferred Method - Using the project's build-dmg.sh script:**
 
-First, check if create-dmg is available:
-```bash
-which create-dmg
-```
-
-If create-dmg is available, ALWAYS use it (especially if project has custom resources):
+This project has a custom build script that uses a pre-configured .DS_Store template for reliable background display. ALWAYS use this script:
 
 ```bash
-# Build the command with available resources
-create-dmg \
-  --volname "AppName" \
-  --volicon "Resources/VolumeIcon.icns" \       # Include if exists
-  --background "Resources/dmg-background.png" \ # Include if exists
-  --window-pos 200 120 \
-  --window-size 660 400 \
-  --icon-size 128 \
-  --icon "AppName.app" 180 200 \
-  --hide-extension "AppName.app" \
-  --app-drop-link 480 200 \
-  "dist/AppName-version.dmg" \
-  "path/to/AppName.app"
+# Check if the build script exists
+ls -la Scripts/build-dmg.sh
+
+# Run the build script
+./Scripts/build-dmg.sh
 ```
 
-**Fallback Method - Using hdiutil (only if create-dmg is unavailable):**
+The script:
+1. Uses `appdmg` for icon positioning (128px icons, correct x/y positions)
+2. Applies the pre-configured `.DS_Store` template from `Resources/dmg-DS_Store`
+3. Includes the background image from `Resources/dmg-background.tiff`
+4. Removes `.fseventsd` and other unwanted files
+5. Converts to compressed UDZO format
+
+**Fallback Method - Manual creation (only if build-dmg.sh doesn't exist):**
 
 ```bash
-# Create a temporary folder for DMG contents
-mkdir -p dmg_contents
-cp -R "AppName.app" dmg_contents/
-
-# Create a symbolic link to Applications for drag-and-drop installation
-ln -s /Applications dmg_contents/Applications
-
-# Create the DMG
-hdiutil create -volname "AppName" -srcfolder dmg_contents -ov -format UDZO "AppName-version.dmg"
-
-# Clean up
-rm -rf dmg_contents
+# Use appdmg for base DMG
+appdmg dmg-config.json dist/AppName.dmg
 ```
 
-**IMPORTANT:** Only use the hdiutil fallback if create-dmg is NOT installed. The create-dmg tool produces significantly better results with proper window styling, icons, and backgrounds.
+**IMPORTANT:** On modern macOS (Ventura/Sonoma/Sequoia), AppleScript-based background setting is unreliable. The project uses a pre-captured `.DS_Store` template (`Resources/dmg-DS_Store`) that was manually configured with a working background. Always use this template.
 
 ### Step 5: Verify the DMG
 
