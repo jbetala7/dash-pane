@@ -1,10 +1,17 @@
 const express = require('express');
 const crypto = require('crypto');
+const Razorpay = require('razorpay');
 const { prepare } = require('../database');
 const { generateLicenseKey } = require('../licenseGenerator');
 const { sendLicenseEmail } = require('../emailService');
 
 const router = express.Router();
+
+// Initialize Razorpay instance
+const razorpay = new Razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET
+});
 
 /**
  * Verify Razorpay webhook signature
@@ -39,6 +46,29 @@ router.post('/razorpay', express.json(), async (req, res) => {
 
         const event = req.body.event;
         console.log(`Received Razorpay event: ${event}`);
+
+        // Handle payment.authorized - capture immediately
+        if (event === 'payment.authorized') {
+            const payment = req.body.payload.payment.entity;
+            const paymentId = payment.id;
+            const amount = payment.amount;
+
+            console.log(`Payment authorized: ${paymentId}, capturing immediately...`);
+
+            try {
+                // Capture the payment immediately via Razorpay API
+                await razorpay.payments.capture(paymentId, amount, payment.currency || 'INR');
+                console.log(`Payment ${paymentId} captured successfully`);
+
+                // The payment.captured webhook will be triggered automatically
+                // and will handle license creation
+                return res.status(200).json({ message: 'Payment captured' });
+            } catch (captureError) {
+                console.error(`Failed to capture payment ${paymentId}:`, captureError);
+                // Don't fail - auto-capture will eventually capture it
+                return res.status(200).json({ message: 'Capture attempted' });
+            }
+        }
 
         if (event === 'payment.captured') {
             const payment = req.body.payload.payment.entity;
