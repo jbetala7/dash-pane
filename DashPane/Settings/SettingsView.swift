@@ -257,7 +257,7 @@ struct LicenseSettingsView: View {
 
                 Section {
                     Button("Purchase License") {
-                        if let url = URL(string: "https://dashpane.com/purchase") {
+                        if let url = URL(string: "https://dashpane.pro#pricing") {
                             NSWorkspace.shared.open(url)
                         }
                     }
