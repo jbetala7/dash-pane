@@ -21,6 +21,7 @@ async function sendLicenseEmail(email, licenseKey, customerName = 'Customer') {
     const fromEmail = process.env.EMAIL_FROM || 'DashPane <onboarding@resend.dev>';
     const maxActivations = process.env.MAX_ACTIVATIONS_PER_LICENSE || 1;
     const macText = maxActivations == 1 ? '1 Mac' : `${maxActivations} Macs`;
+    const emailLogoUrl = process.env.EMAIL_LOGO_URL || 'https://raw.githubusercontent.com/jbetala7/dash-pane/main/licensing-server/public/email-logo.png';
 
     const htmlContent = `
 <!DOCTYPE html>
@@ -43,7 +44,7 @@ async function sendLicenseEmail(email, licenseKey, customerName = 'Customer') {
                                 <tr>
                                     <td>
                                         <!-- Logo Icon -->
-                                        <img src="https://dashpane.pro/email-logo.png" alt="DashPane" width="64" height="64" style="display: block; margin: 0 auto 20px auto; border-radius: 16px; box-shadow: 0 8px 32px rgba(0, 212, 255, 0.4);">
+                                        <img src="${emailLogoUrl}" alt="DashPane" width="64" height="64" style="display: block; margin: 0 auto 20px auto; border-radius: 16px; box-shadow: 0 8px 32px rgba(0, 212, 255, 0.4);">
                                     </td>
                                 </tr>
                                 <tr>
@@ -209,7 +210,7 @@ async function sendLicenseEmail(email, licenseKey, customerName = 'Customer') {
                             <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" style="margin-bottom: 24px;">
                                 <tr>
                                     <td>
-                                        <img src="https://dashpane.pro/email-logo.png" alt="DashPane" width="40" height="40" style="display: block; border-radius: 10px;">
+                                        <img src="${emailLogoUrl}" alt="DashPane" width="40" height="40" style="display: block; border-radius: 10px;">
                                     </td>
                                 </tr>
                             </table>
